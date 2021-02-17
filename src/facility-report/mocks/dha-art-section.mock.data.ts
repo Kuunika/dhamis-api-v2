@@ -1,4 +1,4 @@
-export const moqHccRegistrationData = [
+export const mockHccRegistrationData = [
   {
     concept_name: 'c',
     data_value: 75297,

@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { HivCareClinicModule } from './hiv-care-clinic/hiv-care-clinic.module';
+import { HivCareClinicModule } from './facility-report/facility-report.module';
 import { DhaArtSectionService } from './dhamis/dha-art-section/dha-art-section.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { config } from 'dotenv';
 import { DEFAULT_DB_SERVER_PORT } from './common/constants/configuration.constants';
+import { FacilityService } from './dhamis/facility/facility.service';
 
 config();
 @Module({
@@ -23,6 +24,6 @@ config();
     HivCareClinicModule,
   ],
   controllers: [AppController],
-  providers: [AppService, DhaArtSectionService],
+  providers: [AppService, DhaArtSectionService, FacilityService],
 })
 export class AppModule {}

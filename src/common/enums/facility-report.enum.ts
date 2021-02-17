@@ -1,0 +1,5 @@
+export enum FacilityReport {
+  ART_OUTCOMES_PRIMARY_SECONDARY,
+  HIV_CARE_CLINIC,
+  ART_CLINIC,
+}

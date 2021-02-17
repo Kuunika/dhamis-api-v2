@@ -1,4 +1,4 @@
-export interface HccRegistration {
+export interface dhaArtSelectionResolutes {
   quarter: number;
   hfacility_id: number;
   concept_name: string;

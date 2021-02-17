@@ -1,4 +1,4 @@
-export interface HivCareClinicDto {
+export interface FacilityReportDto {
   description: string;
   'reporting-period': string;
   facilities: Facility[];

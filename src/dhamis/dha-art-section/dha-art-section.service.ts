@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { HccRegistration } from 'src/common/interfaces/hcc-registration';
+import { dhaArtSelectionResolutes } from '../../common/interfaces/hcc-registration';
 import { Connection } from 'typeorm';
 import {
   ART_REGISTRATION_CONCEPT_ID_SET,
@@ -13,14 +13,14 @@ export class DhaArtSectionService {
   async getHccRegistration(
     yearQuarterId: number,
     facilityId: number,
-  ): Promise<HccRegistration[]> {
+  ): Promise<dhaArtSelectionResolutes[]> {
     return this.query(HCC_REGISTRATION, yearQuarterId, facilityId);
   }
 
   async getArtRegistration(
     yearQuarterId: number,
     facilityId: number,
-  ): Promise<HccRegistration[]> {
+  ): Promise<dhaArtSelectionResolutes[]> {
     return this.query(
       ART_REGISTRATION_CONCEPT_ID_SET,
       yearQuarterId,
@@ -31,7 +31,7 @@ export class DhaArtSectionService {
   async getArtOutcomesPrimarySecondary(
     yearQuarterId: number,
     facilityId: number,
-  ): Promise<HccRegistration[]> {
+  ): Promise<dhaArtSelectionResolutes[]> {
     return this.query(OUTCOMES_PRIMARY_SECONDARY, yearQuarterId, facilityId);
   }
 
