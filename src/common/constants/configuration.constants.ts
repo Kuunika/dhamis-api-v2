@@ -1,0 +1,1 @@
+export const DEFAULT_DB_SERVER_PORT = 1433;

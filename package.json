@@ -4,7 +4,7 @@
   "description": "",
   "author": "",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -24,15 +24,20 @@
     "@nestjs/common": "^7.5.1",
     "@nestjs/core": "^7.5.1",
     "@nestjs/platform-express": "^7.5.1",
+    "@nestjs/typeorm": "^7.1.5",
+    "dotenv": "^8.2.0",
+    "mssql": "^6.3.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^6.6.3"
+    "rxjs": "^6.6.3",
+    "typeorm": "^0.2.30"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.5.1",
     "@nestjs/schematics": "^7.1.3",
     "@nestjs/testing": "^7.5.1",
     "@types/express": "^4.17.8",
+    "@types/faker": "^5.1.5",
     "@types/jest": "^26.0.15",
     "@types/node": "^14.14.6",
     "@types/supertest": "^2.0.10",
@@ -41,6 +46,7 @@
     "eslint": "^7.12.1",
     "eslint-config-prettier": "7.1.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "faker": "^5.2.0",
     "jest": "^26.6.3",
     "prettier": "^2.1.2",
     "supertest": "^6.0.0",
