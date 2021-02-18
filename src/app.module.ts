@@ -7,19 +7,23 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { config } from 'dotenv';
 import { DEFAULT_DB_SERVER_PORT } from './common/constants/configuration.constants';
 import { FacilityService } from './dhamis/facility/facility.service';
+import { env } from './common/helper';
 
 config();
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mssql',
-      host: process.env.DB_HOST,
-      port: +process.env.DB_PORT ?? DEFAULT_DB_SERVER_PORT,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
+      host: env('DB_HOST'),
+      port: +env('DB_PORT') ?? DEFAULT_DB_SERVER_PORT,
+      username: env('DB_USERNAME'),
+      password: env('DB_PASSWORD'),
+      database: env('DB_NAME'),
       entities: [],
       synchronize: false,
+      options: {
+        enableAnsiNullDefault: true,
+      },
     }),
     HivCareClinicModule,
   ],

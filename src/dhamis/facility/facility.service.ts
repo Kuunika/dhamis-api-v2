@@ -10,6 +10,8 @@ export class FacilityService {
   constructor(private connection: Connection) {}
 
   async getAllFacilities(): Promise<Facility[]> {
-    return this.connection.query(`SELECT hfacility_id FROM code_hdepartment;`);
+    return this.connection.query(
+      `SELECT DISTINCT hfacility_id FROM code_hdepartment;`,
+    );
   }
 }

@@ -3,7 +3,6 @@ import { FacilityService } from '../dhamis/facility/facility.service';
 import { FacilityReportDto } from '../common/dto/facility-report.dto';
 import { DhaArtSectionService } from '../dhamis/dha-art-section/dha-art-section.service';
 import { FacilityReport } from '../common/enums/facility-report.enum';
-import { dhaArtSelectionResolutes } from '../common/interfaces/hcc-registration';
 import {
   ART_CLINIC,
   ART_OUTCOMES_PRIMARY_SECONDARY,
@@ -13,8 +12,8 @@ import {
 @Injectable()
 export class facilityReportService {
   constructor(
-    private readonly dhaArtSectionService: DhaArtSectionService,
-    private readonly facilityService: FacilityService,
+    private dhaArtSectionService: DhaArtSectionService,
+    private facilityService: FacilityService,
   ) {}
 
   async getDhaArtResults(
@@ -28,13 +27,17 @@ export class facilityReportService {
 
     const all_facilities = [];
     let year_quarter;
-    const reportingFunction = this.getFacilityReportingFunction(facilityReport);
 
     for (const facilityID of organisation_units) {
       const getHivCareClinicValues_Arr = [];
       let facility_code;
 
-      const stmt = await reportingFunction(yearQuarterId, facilityID);
+      const stmt = await this.getFacilityReporting(
+        facilityReport,
+        yearQuarterId,
+        facilityID,
+      );
+
       stmt.forEach((element) => {
         facility_code = element.hfacility_id;
         year_quarter = element.quarter;
@@ -76,35 +79,27 @@ export class facilityReportService {
     return returnMessage;
   }
 
-  private getFacilityReportingFunction(
+  private getFacilityReporting(
     facilityReport: FacilityReport,
-  ): (
     yearQuarterId: number,
-    facilityId: number,
-  ) => Promise<dhaArtSelectionResolutes[]> {
-    let reportingFunction: (
-      yearQuarterId: number,
-      facilityId: number,
-    ) => Promise<dhaArtSelectionResolutes[]>;
+    facilityID: number,
+  ) {
     switch (facilityReport) {
       case FacilityReport.ART_CLINIC:
-        reportingFunction = this.dhaArtSectionService.getHccRegistration;
-        break;
+        return this.dhaArtSectionService.getHccRegistration(
+          yearQuarterId,
+          facilityID,
+        );
       case FacilityReport.ART_OUTCOMES_PRIMARY_SECONDARY:
-        reportingFunction = this.dhaArtSectionService
-          .getArtOutcomesPrimarySecondary;
-        break;
+        return this.dhaArtSectionService.getArtOutcomesPrimarySecondary(
+          yearQuarterId,
+          facilityID,
+        );
       case FacilityReport.HIV_CARE_CLINIC:
-        reportingFunction = this.dhaArtSectionService.getArtRegistration;
-        break;
+        return this.dhaArtSectionService.getArtRegistration(
+          yearQuarterId,
+          facilityID,
+        );
     }
-
-    return reportingFunction;
-  }
-
-  get() {
-    return () => {
-      return 1;
-    };
   }
 }
