@@ -36,14 +36,15 @@ describe('HivCareClinicService', () => {
   it.each([
     [
       FacilityReport.ART_OUTCOMES_PRIMARY_SECONDARY,
-      'ART Primary Secondary Outcomes Migration for 97876',
+      'ART Primary Secondary Outcomes Migration for 91793',
     ],
-    [FacilityReport.ART_CLINIC, 'ART Clinic Migration for 97876'],
-    [FacilityReport.HIV_CARE_CLINIC, 'ART HCC Migration for 97876'],
+    [FacilityReport.ART_CLINIC, 'ART Clinic Migration for 91793'],
+    [FacilityReport.HIV_CARE_CLINIC, 'ART HCC Migration for 91793'],
   ])(
     'should return FacilityReportDto with correct description',
     async (facilityReport: FacilityReport, description: string) => {
-      const result = await service.getDhaArtResults(97876, facilityReport);
+      const result = await service.getDhaArtResults(91793, facilityReport);
+      console.log(result);
       expect(result).toBeDefined();
       expect(result).not.toBeNull();
       expect(result.description).toMatch(description);

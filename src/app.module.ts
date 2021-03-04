@@ -8,6 +8,7 @@ import { config } from 'dotenv';
 import { DEFAULT_DB_SERVER_PORT } from './common/constants/configuration.constants';
 import { FacilityService } from './dhamis/facility/facility.service';
 import { env } from './common/helper';
+import { QuarterModule } from './quarter/quarter.module';
 
 config();
 @Module({
@@ -26,6 +27,7 @@ config();
       },
     }),
     HivCareClinicModule,
+    QuarterModule,
   ],
   controllers: [AppController],
   providers: [AppService, DhaArtSectionService, FacilityService],
