@@ -21,32 +21,32 @@ export class facilityReportService {
     facilityReport: FacilityReport,
   ): Promise<FacilityReportDto> {
     const facilities = await this.facilityService.getAllFacilities();
-    const organisation_units = facilities.map(
-      (facility) => facility.hfacility_id,
-    );
+    const facilityIds = facilities.map((facility) => facility.hfacility_id);
 
     const all_facilities = [];
     let year_quarter;
 
-    for (const facilityID of organisation_units) {
+    const stmt = await this.getFacilityReporting(
+      facilityReport,
+      yearQuarterId,
+      facilityIds,
+    );
+
+    for (const facilityID of facilityIds) {
       const getHivCareClinicValues_Arr = [];
       let facility_code;
 
-      const stmt = await this.getFacilityReporting(
-        facilityReport,
-        yearQuarterId,
-        facilityID,
-      );
-
-      stmt.forEach((element) => {
-        facility_code = element.hfacility_id;
-        year_quarter = element.quarter;
-        getHivCareClinicValues_Arr.push({
-          'product-code': element.product_code,
-          value: element.data_value,
-          'concept-name': element.concept_name,
+      stmt
+        .filter((i) => i.hfacility_id === facilityID)
+        .forEach((element) => {
+          facility_code = element.hfacility_id;
+          year_quarter = element.quarter;
+          getHivCareClinicValues_Arr.push({
+            'product-code': element.product_code,
+            value: element.data_value,
+            'concept-name': element.concept_name,
+          });
         });
-      });
 
       all_facilities.push({
         'facility-code': facility_code,
@@ -79,27 +79,32 @@ export class facilityReportService {
     return returnMessage;
   }
 
-  private getFacilityReporting(
+  private async getFacilityReporting(
     facilityReport: FacilityReport,
     yearQuarterId: number,
-    facilityID: number,
+    facilityIDs: number[],
   ) {
+    let value;
     switch (facilityReport) {
       case FacilityReport.ART_CLINIC:
-        return this.dhaArtSectionService.getHccRegistration(
+        value = await this.dhaArtSectionService.getHccRegistration(
           yearQuarterId,
-          facilityID,
+          facilityIDs,
         );
+        console.log(value);
+        return value;
       case FacilityReport.ART_OUTCOMES_PRIMARY_SECONDARY:
-        return this.dhaArtSectionService.getArtOutcomesPrimarySecondary(
+        value = await this.dhaArtSectionService.getArtOutcomesPrimarySecondary(
           yearQuarterId,
-          facilityID,
+          facilityIDs,
         );
+        return value;
       case FacilityReport.HIV_CARE_CLINIC:
-        return this.dhaArtSectionService.getArtRegistration(
+        value = await this.dhaArtSectionService.getArtRegistration(
           yearQuarterId,
-          facilityID,
+          facilityIDs,
         );
+        return value;
     }
   }
 }

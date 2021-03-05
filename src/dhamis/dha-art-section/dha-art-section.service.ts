@@ -12,33 +12,33 @@ export class DhaArtSectionService {
   constructor(private connection: Connection) {}
   async getHccRegistration(
     yearQuarterId: number,
-    facilityId: number,
+    facilityIds: number[],
   ): Promise<dhaArtSelectionResolutes[]> {
-    return this.query(HCC_REGISTRATION, yearQuarterId, facilityId);
+    return this.query(HCC_REGISTRATION, yearQuarterId, facilityIds);
   }
 
   async getArtRegistration(
     yearQuarterId: number,
-    facilityId: number,
+    facilityIds: number[],
   ): Promise<dhaArtSelectionResolutes[]> {
     return this.query(
       ART_REGISTRATION_CONCEPT_ID_SET,
       yearQuarterId,
-      facilityId,
+      facilityIds,
     );
   }
 
   async getArtOutcomesPrimarySecondary(
     yearQuarterId: number,
-    facilityId: number,
+    facilityIds: number[],
   ): Promise<dhaArtSelectionResolutes[]> {
-    return this.query(OUTCOMES_PRIMARY_SECONDARY, yearQuarterId, facilityId);
+    return this.query(OUTCOMES_PRIMARY_SECONDARY, yearQuarterId, facilityIds);
   }
 
   private async query(
     conceptIdSet: number,
     yearQuarterId: number,
-    facilityId: number,
+    facilityIds: number[],
   ) {
     return this.connection.query(`SELECT      
     CONCAT (code_year_quarter.[year], 'Q', code_year_quarter.quarter) AS quarter,          
@@ -53,7 +53,9 @@ export class DhaArtSectionService {
         LEFT JOIN art_clinic_obs ON art_clinic_obs.ID = obs_dimensions.art_clinic_obs_id  
         LEFT JOIN code_hdepartment ON code_hdepartment.ID = art_clinic_obs.hdepartment_id 
         LEFT JOIN code_year_quarter ON code_year_quarter.ID = art_clinic_obs.year_quarter_id  
-        WHERE concept_set.concept_ID_set = ${conceptIdSet} AND art_clinic_obs.year_quarter_id = ${yearQuarterId} AND code_hdepartment.hfacility_id = ${facilityId}  
-          ORDER BY product_code`);
+        WHERE concept_set.concept_ID_set = ${conceptIdSet} 
+        AND art_clinic_obs.year_quarter_id = ${yearQuarterId} 
+        AND code_hdepartment.hfacility_id IN(${facilityIds.join(',')}) 
+        ORDER BY product_code`);
   }
 }
