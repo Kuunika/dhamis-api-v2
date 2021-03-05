@@ -12,34 +12,23 @@ export class DhaArtSectionService {
   constructor(private connection: Connection) {}
   async getHccRegistration(
     yearQuarterId: number,
-    facilityIds: number[],
   ): Promise<dhaArtSelectionResolutes[]> {
-    return this.query(HCC_REGISTRATION, yearQuarterId, facilityIds);
+    return this.query(HCC_REGISTRATION, yearQuarterId);
   }
 
   async getArtRegistration(
     yearQuarterId: number,
-    facilityIds: number[],
   ): Promise<dhaArtSelectionResolutes[]> {
-    return this.query(
-      ART_REGISTRATION_CONCEPT_ID_SET,
-      yearQuarterId,
-      facilityIds,
-    );
+    return this.query(ART_REGISTRATION_CONCEPT_ID_SET, yearQuarterId);
   }
 
   async getArtOutcomesPrimarySecondary(
     yearQuarterId: number,
-    facilityIds: number[],
   ): Promise<dhaArtSelectionResolutes[]> {
-    return this.query(OUTCOMES_PRIMARY_SECONDARY, yearQuarterId, facilityIds);
+    return this.query(OUTCOMES_PRIMARY_SECONDARY, yearQuarterId);
   }
 
-  private async query(
-    conceptIdSet: number,
-    yearQuarterId: number,
-    facilityIds: number[],
-  ) {
+  private async query(conceptIdSet: number, yearQuarterId: number) {
     return this.connection.query(`SELECT      
     CONCAT (code_year_quarter.[year], 'Q', code_year_quarter.quarter) AS quarter,          
     code_hdepartment.hfacility_id,     
@@ -55,7 +44,6 @@ export class DhaArtSectionService {
         LEFT JOIN code_year_quarter ON code_year_quarter.ID = art_clinic_obs.year_quarter_id  
         WHERE concept_set.concept_ID_set = ${conceptIdSet} 
         AND art_clinic_obs.year_quarter_id = ${yearQuarterId} 
-        AND code_hdepartment.hfacility_id IN(${facilityIds.join(',')}) 
         ORDER BY product_code`);
   }
 }
