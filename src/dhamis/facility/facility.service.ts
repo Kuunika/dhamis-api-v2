@@ -11,7 +11,12 @@ export class FacilityService {
 
   async getAllFacilities(): Promise<Facility[]> {
     return this.connection.query(
-      `SELECT DISTINCT hfacility_id FROM code_hdepartment;`,
+      `SELECT DISTINCT
+        ID,
+        hfacility_name,
+        Site_code
+      FROM
+        code_hfacility;`,
     );
   }
 }
