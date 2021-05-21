@@ -4,9 +4,9 @@ import { facilityReportService } from './facility-report.service';
 
 @Controller('')
 export class FacilityReportController {
-  constructor(private hivCareClinicService: facilityReportService) {}
+  constructor(private hivCareClinicService: facilityReportService) { }
 
-  @Get('artoutcomesprimarysecondary/:yearQuarter/')
+  @Get('artoutcomesprimarysecondary/:yearQuarter')
   getArtOutcomesPrimarySecondary(@Param('yearQuarter') yearQuarterId: number) {
     return this.hivCareClinicService.getDhaArtResults(
       yearQuarterId,
