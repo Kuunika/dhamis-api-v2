@@ -23,8 +23,11 @@ config();
       database: env('DB_NAME'),
       entities: [],
       synchronize: false,
+      requestTimeout: 600_000,
       options: {
         enableAnsiNullDefault: true,
+        connectTimeout: 600_000,
+        enableArithAbort: true,
       },
     }),
     HivCareClinicModule,
@@ -33,4 +36,4 @@ config();
   controllers: [AppController, FacilityController],
   providers: [AppService, DhaArtSectionService, FacilityService],
 })
-export class AppModule {}
+export class AppModule { }

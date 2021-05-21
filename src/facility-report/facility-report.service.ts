@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import * as fs from 'fs/promises';
 import { FacilityService } from '../dhamis/facility/facility.service';
 import { FacilityReportDto } from '../common/dto/facility-report.dto';
 import { DhaArtSectionService } from '../dhamis/dha-art-section/dha-art-section.service';
@@ -14,29 +15,24 @@ export class facilityReportService {
   constructor(
     private dhaArtSectionService: DhaArtSectionService,
     private facilityService: FacilityService,
-  ) {}
+  ) { }
 
   async getDhaArtResults(
     yearQuarterId: number,
     facilityReport: FacilityReport,
   ): Promise<FacilityReportDto> {
-    const facilityIds = await this.facilityService
-      .getAllFacilities()
-      .then((facilities) =>
-        facilities.map((facility) => facility.hfacility_id),
-      );
+    const facilities = await this.facilityService.getAllFacilities();
 
     const all_facilities = [];
     let year_quarter;
-
     const stmt = await this.getFacilityReporting(facilityReport, yearQuarterId);
 
-    for (const facilityID of facilityIds) {
+    for (const facility of facilities) {
       const getHivCareClinicValues_Arr = [];
       let facility_code;
 
       stmt
-        .filter((i) => i.hfacility_id === facilityID)
+        .filter((i) => i.hfacility_id === facility.ID)
         .forEach((element) => {
           facility_code = element.hfacility_id;
           year_quarter = element.quarter;
