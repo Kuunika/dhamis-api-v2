@@ -13,6 +13,6 @@ async function bootstrap() {
     credentials: true
   });
   const server = await app.listen(env('PORT') ?? 3000);
-  server.setTimeout(25_000);
+  server.setTimeout(600_000);
 }
 bootstrap();
