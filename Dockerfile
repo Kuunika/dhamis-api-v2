@@ -1,8 +1,9 @@
 FROM node:14 as building
 WORKDIR /usr/src/app
-COPY ./backend/package.json .
-RUN npm install --only=prod
+COPY ./package.json .
 COPY ./dist .
+RUN npm install --only=prod
+
 
 FROM node:14-alpine
 WORKDIR /usr/src/app

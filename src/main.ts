@@ -4,7 +4,7 @@ import { env } from './common/helper';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('dhamis/v2/api');
+  app.setGlobalPrefix('dhamis/api/v2');
   app.enableCors({
     origin: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
